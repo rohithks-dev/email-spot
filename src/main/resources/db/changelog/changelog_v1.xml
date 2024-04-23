@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+            http://www.liquibase.org/xml/ns/pro
+            http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+
+    <changeSet author="rohithks" id="1">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_pk"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="email_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="rohithks" id="2">
+        <createTable tableName="email_template">
+            <column autoIncrement="true" name="email_template_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="email_template_pk"/>
+            </column>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="body" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="rohithks" id="3">
+        <createTable tableName="email_log">
+            <column autoIncrement="true" name="email_log_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="email_log_pk"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints foreignKeyName="email_log_fk_user" referencedTableName="user" referencedColumnNames="user_id"/>
+            </column>
+            <column name="sent_time" type="TIMESTAMP"/>
+            <column name="email_template_id" type="INTEGER">
+                <constraints foreignKeyName="email_log_fk_email_template" referencedTableName="email_template" referencedColumnNames="email_template_id"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="error_message" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
