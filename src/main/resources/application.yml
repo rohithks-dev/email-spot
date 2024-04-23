@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: email-spot
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${EMAIL_SPOT_DB_URL}&password=${EMAIL_SPOT_DB_PASSWORD}&user=${EMAIL_SPOT_DB_USERNAME}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
