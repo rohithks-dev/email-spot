@@ -19,9 +19,9 @@ public class SendEmailImpl implements SendEmailService{
     public String sendEmail() {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(sendEmail);
-        mailMessage.setTo(sendEmail);
-        mailMessage.setSubject("Email Spot");
-        mailMessage.setText("This is a test email.");
+        mailMessage.setTo("gajjelsa@protonmail.com");
+        mailMessage.setSubject("Pani Chusukora");
+        mailMessage.setText("This is a test email. Pani chusukora PUKA");
 
         mailSender.send(mailMessage);
         return "Email Sent";

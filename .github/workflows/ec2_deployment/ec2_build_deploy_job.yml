@@ -1,0 +1,49 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Forex Explorer Continuous Integration and Continuous deployment (CI/CD) workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+      - name: Login to Docker
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker build image
+        run: docker build -t surarohith/email-spot .
+      - name: Publish image to Docker Hub
+        run: docker push surarohith/email-spot:latest
+
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull the image from Docker Hub
+        run: docker pull surarohith/email-spot:latest
+      - name: Delete old container
+        run: docker rm -f email-spot-container
+      - name: Run Docker Container
+        run: docker run -d --restart unless-stopped -p 8080:8080 --name email-spot-container surarohith/email-spot
