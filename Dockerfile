@@ -6,5 +6,5 @@ RUN ./gradlew bootJar --no-daemon
 
 FROM openjdk:17-jdk-slim
 EXPOSE 8080
-COPY --from=build /build/libs/emailspot-0.0.1-SNAPSHOT.jar emailspot.jar
-ENTRYPOINT ["java", "-jar", "/emailspot.jar"]
+COPY --from=build /build/libs/email-spot-0.0.1-SNAPSHOT.jar email-spot.jar
+ENTRYPOINT ["java", "-jar", "/email-spot.jar"]
