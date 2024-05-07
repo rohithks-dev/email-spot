@@ -16,12 +16,12 @@ public class SendEmailImpl implements SendEmailService{
     private String sendEmail;
 
     @Override
-    public String sendEmail() {
+    public String sendEmail(String to, String subject, String message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(sendEmail);
-        mailMessage.setTo("gajjelsa@protonmail.com");
-        mailMessage.setSubject("Pani Chusukora");
-        mailMessage.setText("This is a test email. Pani chusukora PUKA");
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
 
         mailSender.send(mailMessage);
         return "Email Sent";
